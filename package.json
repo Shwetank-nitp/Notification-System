@@ -1,0 +1,14 @@
+{
+  "name": "notificationservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "start": "node dest/src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
