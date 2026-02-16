@@ -1,9 +1,10 @@
-import IAction from '../../../modules/notification-engine/action/interface/IAction';
+import { ChannelName } from '../../../types/ChannelName';
+import IChannel from './IChannel';
 
 interface IUser {
   getId(): string;
   getClientId(): string;
-  getSub(): IAction[];
+  getCredential(channelName: ChannelName): IChannel;
 }
 
 export default IUser;
