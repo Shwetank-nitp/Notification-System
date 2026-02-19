@@ -1,3 +1,4 @@
+import IObserver from '../../../entities/observer/interface/IObserver';
 import ICache from '../interface/ICache';
 
 class ListNode {
@@ -8,7 +9,7 @@ class ListNode {
   ) {}
 }
 
-export default class LRUCache<T> implements ICache<T> {
+export default class LRUCache<T extends IObserver> implements ICache<T> {
   private readonly map: Map<string, T>;
   private readonly refs: Map<string, ListNode>;
   private readonly inflight: Map<string, Promise<T>>;
@@ -35,7 +36,7 @@ export default class LRUCache<T> implements ICache<T> {
   async getObject(
     userId: string,
     clientName: string,
-    fallback: () => Promise<T>
+    fallback: (userId: string, clientName: string) => Promise<T>
   ): Promise<T> {
     const id = this.getKey(userId, clientName);
 
@@ -44,7 +45,7 @@ export default class LRUCache<T> implements ICache<T> {
       const node = this.refs.get(id)!;
 
       this.moveToHead(node);
-
+      // console.log(clientName, userId, ' found in cache');
       return this.map.get(id)!;
     }
 
@@ -54,7 +55,7 @@ export default class LRUCache<T> implements ICache<T> {
     }
 
     // Start loading
-    const promise = fallback()
+    const promise = fallback(userId, clientName)
       .then((obj) => {
         this.setObject(userId, clientName, obj);
 
@@ -73,7 +74,7 @@ export default class LRUCache<T> implements ICache<T> {
     return promise;
   }
 
-  setObject(userId: string, clientName: string, value: T): void {
+  async setObject(userId: string, clientName: string, value: T): Promise<void> {
     const id = this.getKey(userId, clientName);
 
     if (this.map.has(id)) {
@@ -98,6 +99,21 @@ export default class LRUCache<T> implements ICache<T> {
     if (this.size > this.maxSize) {
       this.evictLRU();
     }
+  }
+
+  async deleteObject(userId: string, clientName: string): Promise<void> {
+    const key = this.getKey(userId, clientName);
+    const node = this.refs.get(key);
+    if (!node) return;
+
+    this.removeNode(node);
+
+    this.map.delete(key);
+    this.refs.delete(key);
+
+    this.size--;
+
+    // console.log(node, ' deleted');
   }
 
   private evictLRU(): void {

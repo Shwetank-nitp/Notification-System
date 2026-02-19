@@ -1,1 +1,2 @@
-export type ChannelName = 'SMS' | 'Email' | 'Whatsapp';
+export type ChannelName = 'Email';
+export const CHANNEL_NAMES: ChannelName[] = ['Email'];

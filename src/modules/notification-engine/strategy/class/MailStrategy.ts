@@ -3,7 +3,12 @@ import EmailChannel from '../../../../entities/user/class/EmailChannel';
 import INotifyEngineStrategy from '../interface/INotifyEngineStrategy';
 
 class MailStrategy implements INotifyEngineStrategy {
-  async send(notification: INotification, emial: EmailChannel): Promise<void> {}
+  //@ts-ignore
+  async send(notification: INotification, emial: EmailChannel): Promise<void> {
+    console.log(notification.getContent());
+    console.log(emial.emailTo);
+    console.log('Mail send!!');
+  }
 }
 
 export default MailStrategy;

@@ -1,8 +1,11 @@
-import { ChannelName } from '../../../types/ChannelName';
+import { CredentialName } from '../../../types/CredentialName';
 import INotification from '../../notification/interface/INotification';
+import IChannel from '../../user/interface/IChannel';
+import ICredential from '../../user/interface/ICredential';
 
 interface IObserver {
-  do(notification: INotification, channelName: ChannelName[]): Promise<void>;
+  getCredential(credName: CredentialName): ICredential;
+  do(notification: INotification, channel: IChannel[]): Promise<void>;
 }
 
 export default IObserver;

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package notification;
+
+import "google/protobuf/empty.proto";
+
+service NotifyGrpcService {
+    rpc SendNotification (NotificationMessage) 
+        returns (google.protobuf.Empty);
+}
+
+message NotificationMessage {
+    string userId = 1;
+    string clientName = 2;
+    ChannelName channelName = 3;
+    string content = 4;
+}
+
+enum ChannelName {
+    UNKNOWN_CHANNEL = 0;
+    Email = 1;
+}

@@ -2,6 +2,7 @@ import INotification from '../../../../entities/notification/interface/INotifica
 import INotifyEngineStrategy from '../interface/INotifyEngineStrategy';
 
 class WhatsappStrategy implements INotifyEngineStrategy {
+  //@ts-ignore
   async send(notification: INotification): Promise<void> {}
 }
 

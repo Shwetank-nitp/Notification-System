@@ -1,10 +1,10 @@
-import { ChannelName } from '../../../types/ChannelName';
-import IChannel from './IChannel';
+import { CredentialName } from '../../../types/CredentialName';
+import ICredential from './ICredential';
 
 interface IUser {
   getId(): string;
-  getClientId(): string;
-  getCredential(channelName: ChannelName): IChannel;
+  getClientName(): string;
+  getCredential(credentialName: CredentialName): ICredential;
 }
 
 export default IUser;

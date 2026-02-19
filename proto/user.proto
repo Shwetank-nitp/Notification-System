@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/empty.proto";
+
+service UserGrpcService {
+    rpc CreateNewUser (UserMessage) returns (UserMessage);
+
+    rpc DeleteUser (UserMessage) 
+        returns (google.protobuf.Empty);
+
+    rpc OffChannelPermission (ChannelPermissionMessage) 
+        returns (google.protobuf.Empty);
+
+    rpc OnChannelPermission (ChannelPermissionMessage) 
+        returns (google.protobuf.Empty);
+
+    rpc AppendPermission (ChannelCredentialMessage) 
+        returns (google.protobuf.Empty);
+
+    rpc RemovePermission (ChannelPermissionMessage) 
+        returns (google.protobuf.Empty);
+}
+
+message UserMessage {
+    string userId = 1;       // uuid
+    string clientName = 2;   // client name
+}
+
+message ChannelPermissionMessage {
+    string userId = 1;
+    string clientName = 2;
+    ChannelName channelName = 3;
+}
+
+message ChannelCredentialMessage {
+    string userId = 1;
+    string clientName = 2;
+    ChannelName channelName = 3;
+    string credential = 4;
+}
+
+enum ChannelName {
+    CHANNEL_NAME_UNSPECIFIED = 0;
+    Email = 1;
+}
